@@ -1,0 +1,207 @@
+import React, { useState } from "react";
+import _ from "lodash";
+
+import A from "components/a";
+import Div from "components/div";
+import Icon from "components/icon";
+import Text from "components/text";
+
+import { trans } from "locales";
+
+import Style from "style";
+
+import { useMerchant } from "merchant/contexts/app";
+import { useDrawer } from "merchant/contexts/drawer";
+
+import Shop from "merchant/containers/profile/post";
+import Identity from "merchant/containers/profile/post";
+import ExternalAccount from "merchant/containers/profile/post";
+import Representative from "merchant/containers/profile/post";
+import Statistics from "merchant/containers/statistics";
+
+const SettingsCard = (props) => {
+    const { title, subtitle, onClick } = props;
+
+    return (
+        <A
+            style={[
+                Style.column,
+                Style.row_center,
+                Style.column_start,
+                Style.bg_color_15,
+                Style.shadow_all,
+                Style.m_t_3,
+                Style.m_h_3,
+                Style.p_3,
+                Style.border_round_2,
+            ]}
+            onPress={onClick}
+        >
+            <Text
+                style={[
+                    Style.f_size_15,
+                    Style.f_weight_600,
+                    Style.f_color_primary,
+                    Style.m_b_2,
+                ]}
+            >
+                {title}
+            </Text>
+            <Text
+                style={[
+                    Style.f_size_13,
+                    Style.f_weight_500,
+                    Style.f_color_dark,
+                ]}
+            >
+                {subtitle}
+            </Text>
+        </A>
+    );
+};
+
+const ProfilePage = (props) => {
+    const { openDrawer } = useDrawer();
+    const { merchant } = useMerchant();
+
+    const progresses = [
+        "home",
+        "shop",
+        "identity",
+        "external",
+        "executive",
+        "statistics",
+    ];
+
+    const { sub_tab: tab } = props;
+
+    const businessType = _.get(merchant, "entity", "");
+
+    const _progress = _.includes(progresses, tab) ? tab : "home";
+
+    const [progress, changeProgress] = useState(_progress);
+
+    let component = <></>;
+
+    switch (progress) {
+        case "shop":
+            component = (
+                <Shop
+                    type="shop"
+                    merchant={merchant}
+                    changeNav={(progress: string) => changeProgress(progress)}
+                />
+            );
+            break;
+
+        case "identity":
+            component = (
+                <Identity
+                    type="identity"
+                    merchant={merchant}
+                    changeNav={(progress: string) => changeProgress(progress)}
+                />
+            );
+            break;
+
+        case "external_account":
+            component = (
+                <ExternalAccount
+                    type="external_account"
+                    merchant={merchant}
+                    changeNav={(progress: string) => changeProgress(progress)}
+                />
+            );
+            break;
+
+        case "representative":
+            component = (
+                <Representative
+                    type="representative"
+                    merchant={merchant}
+                    changeNav={(progress: string) => changeProgress(progress)}
+                />
+            );
+            break;
+
+        case "statistics":
+            component = (
+                <Statistics
+                    merchant={merchant}
+                    changeNav={(progress: string) => changeProgress(progress)}
+                />
+            );
+            break;
+
+        case "home":
+            component = (
+                <Div
+                    style={[
+                        Style.column,
+                        Style.h_p100,
+                        Style.overflow_y_auto,
+                        {
+                            paddingTop: "60px",
+                        },
+                    ]}
+                >
+                    <A
+                        style={[Style.top_left, Style.p_3, { top: "-10px" }]}
+                        onPress={() =>
+                            openDrawer({
+                                template: "profile_drawer",
+                                direction: "left",
+                            })
+                        }
+                    >
+                        <Icon
+                            name="menu"
+                            size={Style.f_size_25.fontSize}
+                            color={Style.f_color_dark_medium.color}
+                        />
+                    </A>
+                    {businessType === "individual" && (
+                        <SettingsCard
+                            title={trans("personalSetting")}
+                            subtitle={trans("personalSettingTitle")}
+                            onClick={() => changeProgress("identity")}
+                        />
+                    )}
+                    {businessType === "company" && (
+                        <>
+                            <SettingsCard
+                                title={trans("companySetting")}
+                                subtitle={trans("companySettingTitle")}
+                                onClick={() => changeProgress("identity")}
+                            />
+                            <SettingsCard
+                                title={trans("representativeSetting")}
+                                subtitle={trans("representativeSettingTitle")}
+                                onClick={() => changeProgress("representative")}
+                            />
+                        </>
+                    )}
+                    <SettingsCard
+                        title={trans("bankAccountSetting")}
+                        subtitle={trans("bankAccountSettingTitle")}
+                        onClick={() => changeProgress("external_account")}
+                    />
+                    <SettingsCard
+                        title={trans("shopSetting")}
+                        subtitle={trans("shopSettingTitle")}
+                        onClick={() => changeProgress("shop")}
+                    />
+                    <SettingsCard
+                        title={trans("statistics")}
+                        subtitle={trans("statisticsTitle")}
+                        onClick={() => changeProgress("statistics")}
+                    />
+                </Div>
+            );
+            break;
+    }
+
+    return <Div style={[Style.column, Style.h_p100]}>{component}</Div>;
+};
+
+export default ProfilePage;

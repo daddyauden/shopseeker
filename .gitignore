@@ -1,0 +1,61 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# IDE / Editor
+.idea
+
+# misc
+.DS_Store
+
+# Logs
+/logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+yarn.lock
+package-lock.json
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+############################
+# .env
+############################
+.env
+.env.local
+.env.*.local
+
+############################
+# pnpm
+############################
+.pnpm-store
+pnpm-lock.yaml
+

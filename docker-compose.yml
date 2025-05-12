@@ -1,0 +1,16 @@
+name: shopseeker-webapp
+
+services:
+  shopseeker-webapp:
+    image: ${CONTAINER_IMAGE}
+    container_name: ${CONTAINER_HOSTNAME}
+    hostname: ${CONTAINER_HOSTNAME}
+    restart: always
+    env_file: .env.${NODE_ENV}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}

@@ -1,0 +1,36 @@
+{
+    "name": "Shop Seeker",
+    "short_name": "shopseeker",
+    "theme_color": "#e60011",
+    "background_color": "#ffffff",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/",
+    "description": "Shopseeker Web Application.",
+    "icons": [
+        {
+            "src": "/static/image/logo-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/static/image/logo-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Shop Seeker",
+            "short_name": "shopseeker",
+            "description": "Shopseeker Web Application.",
+            "url": "/",
+            "icons": [
+                {
+                    "src": "/static/image/logo-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}
